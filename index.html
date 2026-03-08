@@ -1650,20 +1650,27 @@ window.addEventListener('scroll', () => {
 // ── PAGE TRANSITIONS ──
 const overlay = document.getElementById('pageTransition');
 
-// Fade in on load
-window.addEventListener('load', () => {
+function resetOverlay() {
+  overlay.classList.remove('leaving');
   overlay.style.opacity = '0';
-});
+  overlay.style.pointerEvents = 'none';
+}
+window.addEventListener('load', resetOverlay);
+window.addEventListener('pageshow', resetOverlay);
 
-// Fade out on internal link click
 document.querySelectorAll('a[href]').forEach(link => {
   const href = link.getAttribute('href');
-  // Only intercept relative internal links (not anchors, not external)
   if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto')) return;
+
   link.addEventListener('click', e => {
+    if (window.matchMedia('(hover: none)').matches) return;
     e.preventDefault();
     overlay.classList.add('leaving');
-    setTimeout(() => { window.location.href = href; }, 300);
+    const fallback = setTimeout(() => { window.location.href = href; }, 350);
+    overlay.addEventListener('transitionend', () => {
+      clearTimeout(fallback);
+      window.location.href = href;
+    }, { once: true });
   });
 });
 </script>
