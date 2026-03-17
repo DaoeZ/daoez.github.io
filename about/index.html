@@ -1,901 +1,1078 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sobre el proyecto · WSET3 Prepárate</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-  --wine: #8B1A2E;
-  --wine-deep: #5C0F1E;
-  --wine-light: #C4344F;
-  --gold: #C9A84C;
-  --gold-light: #E8C96A;
-  --cream: #F5F0E8;
-  --dark: #0D0608;
-  --dark-mid: #1A0D10;
-  --dark-card: #221218;
-  --text: #F0E8E0;
-  --text-muted: #9A8070;
-}
-
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--dark);
-  color: var(--text);
-  font-family: 'Outfit', system-ui, sans-serif;
-  line-height: 1.6;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 999;
-  opacity: 0.6;
-}
-
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  padding: 20px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(13,6,8,0.85);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-}
-
-.nav-logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.3rem;
-  color: var(--wine-light);
-  text-decoration: none;
-}
-
-.nav-logo span {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 300;
-  margin-left: 8px;
-}
-
-.nav-back {
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: 0.85rem;
-  transition: color 0.2s;
-}
-.nav-back:hover { color: var(--gold); }
-
-/* HEADER */
-.page-header {
-  padding: 140px 24px 60px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.page-header::before {
-  content: '';
-  position: absolute;
-  width: 500px; height: 500px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(139,26,46,0.12) 0%, transparent 70%);
-  top: -100px; left: 50%;
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-
-.page-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(201,168,76,0.08);
-  border: 1px solid rgba(201,168,76,0.2);
-  color: var(--gold-light);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  padding: 7px 16px;
-  border-radius: 100px;
-  margin-bottom: 28px;
-  opacity: 0;
-  animation: fadeUp 0.6s ease 0.1s forwards;
-}
-
-.page-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 300;
-  line-height: 1.0;
-  margin-bottom: 20px;
-  opacity: 0;
-  animation: fadeUp 0.6s ease 0.2s forwards;
-}
-
-.page-title em {
-  font-style: italic;
-  color: var(--wine-light);
-  display: block;
-}
-
-.page-sub {
-  font-size: 1rem;
-  color: var(--text-muted);
-  font-weight: 300;
-  max-width: 440px;
-  margin: 0 auto;
-  opacity: 0;
-  animation: fadeUp 0.6s ease 0.3s forwards;
-}
-
-.divider {
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(139,26,46,0.3), rgba(201,168,76,0.2), rgba(139,26,46,0.3), transparent);
-}
-
-/* CONTENT */
-.content {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 60px 24px 100px;
-}
-
-.block {
-  margin-bottom: 56px;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.7s ease-out;
-}
-
-.block.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.section-label {
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 12px;
-}
-
-.block h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2rem;
-  font-weight: 400;
-  color: var(--cream);
-  margin-bottom: 20px;
-  line-height: 1.2;
-}
-
-.block h2 em {
-  font-style: italic;
-  color: var(--wine-light);
-}
-
-.block p {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  line-height: 1.85;
-  font-weight: 300;
-  margin-bottom: 14px;
-}
-
-.block p:last-child { margin-bottom: 0; }
-
-.block p strong {
-  color: var(--text);
-  font-weight: 500;
-}
-
-/* AUTHOR CARD */
-.author-card {
-  background: var(--dark-card);
-  border: 1px solid rgba(201,168,76,0.15);
-  border-radius: 20px;
-  padding: 32px;
-  display: flex;
-  align-items: flex-start;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.author-avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--wine) 0%, var(--wine-deep) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.6rem;
-  flex-shrink: 0;
-  border: 2px solid rgba(201,168,76,0.2);
-}
-
-.author-info h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.5rem;
-  font-weight: 400;
-  color: var(--cream);
-  margin-bottom: 4px;
-}
-
-.author-info .author-role {
-  font-size: 0.8rem;
-  color: var(--gold);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-weight: 500;
-  margin-bottom: 12px;
-}
-
-.author-info p {
-  font-size: 0.88rem;
-  color: var(--text-muted);
-  line-height: 1.7;
-  font-weight: 300;
-  margin-bottom: 0;
-}
-
-/* STACK */
-.stack-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 12px;
-  margin-top: 8px;
-}
-
-.stack-item {
-  background: var(--dark-card);
-  border: 1px solid rgba(255,255,255,0.05);
-  border-radius: 12px;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.stack-icon {
-  font-size: 1.4rem;
-}
-
-.stack-name {
-  font-size: 0.85rem;
-  color: var(--text);
-  font-weight: 400;
-}
-
-.stack-desc {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  font-weight: 300;
-}
-
-/* DISCLAIMER */
-.disclaimer {
-  background: rgba(139,26,46,0.06);
-  border: 1px solid rgba(139,26,46,0.18);
-  border-left: 3px solid var(--wine-light);
-  border-radius: 0 12px 12px 0;
-  padding: 20px 24px;
-}
-
-.disclaimer p {
-  font-size: 0.88rem;
-  color: var(--text-muted);
-  margin-bottom: 0;
-}
-
-/* LINKS */
-.links-row {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 8px;
-}
-
-.link-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--dark-card);
-  border: 1px solid rgba(201,168,76,0.15);
-  color: var(--text);
-  text-decoration: none;
-  font-size: 0.88rem;
-  font-weight: 400;
-  padding: 12px 20px;
-  border-radius: 10px;
-  transition: all 0.25s ease;
-}
-
-.link-btn:hover {
-  border-color: rgba(201,168,76,0.35);
-  color: var(--gold-light);
-  transform: translateY(-2px);
-}
-
-.link-btn.primary {
-  background: linear-gradient(135deg, var(--wine) 0%, var(--wine-deep) 100%);
-  border-color: rgba(201,168,76,0.2);
-  color: var(--cream);
-  box-shadow: 0 6px 24px rgba(139,26,46,0.3);
-}
-
-.link-btn.primary:hover {
-  box-shadow: 0 10px 32px rgba(139,26,46,0.5);
-  color: var(--cream);
-}
-
-footer {
-  border-top: 1px solid rgba(255,255,255,0.05);
-  padding: 40px 24px;
-  text-align: center;
-}
-
-.footer-logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.4rem;
-  color: var(--wine-light);
-  margin-bottom: 8px;
-}
-
-.footer-note {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  font-weight: 300;
-}
-
-.footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin-top: 16px;
-  flex-wrap: wrap;
-}
-
-.footer-links a {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.footer-links a:hover { color: var(--gold); }
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@media (hover: none) {
-  .cursor-dot, .cursor-ring { display: none; }
-}
-
-/* ── CURSOR ── */
-.cursor-dot {
-  width: 6px; height: 6px;
-  background: var(--wine-light);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
-  mix-blend-mode: screen;
-}
-
-.cursor-ring {
-  width: 32px; height: 32px;
-  border: 1px solid rgba(196,52,79,0.5);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: transform 0.12s ease, width 0.25s ease, height 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
-}
-
-body:has(a:hover) .cursor-dot,
-body:has(button:hover) .cursor-dot {
-  width: 10px; height: 10px;
-  background: var(--gold);
-}
-
-body:has(a:hover) .cursor-ring,
-body:has(button:hover) .cursor-ring {
-  width: 44px; height: 44px;
-  border-color: rgba(201,168,76,0.6);
-}
-
-/* ── PARTICLES ── */
-.particles-canvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 998;
-  width: 100%;
-  height: 100%;
-  mix-blend-mode: screen;
-}
-
-/* ── PAGE TRANSITION ── */
-.page-transition {
-  position: fixed;
-  inset: 0;
-  background: var(--dark);
-  z-index: 9000;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.page-transition.leaving { opacity: 1; pointer-events: all; }
-
-/* ── PAGE ORB (header secundario) ── */
-.page-orb {
-  position: absolute;
-  width: 500px; height: 500px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(139,26,46,0.18) 0%, transparent 70%);
-  top: -150px; left: 50%;
-  transform: translateX(-50%);
-  animation: pulse 7s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes pulse {
-  0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.6; }
-  50%       { transform: translateX(-50%) scale(1.08); opacity: 0.9; }
-}
-
-
-/* ── RESPONSIVE MÓVIL ── */
-@media (max-width: 640px) {
-  /* Nav */
-  nav {
-    padding: 14px 20px;
-  }
-  .nav-logo { font-size: 1.1rem; }
-
-  /* Page header */
-  .page-header {
-    padding: 100px 20px 40px;
-  }
-  .page-title {
-    font-size: clamp(2rem, 10vw, 3rem);
-  }
-  .page-sub {
-    font-size: 0.9rem;
-    padding: 0 8px;
-  }
-  .page-badge {
-    font-size: 0.65rem;
-    padding: 6px 14px;
-  }
-
-  /* Content */
-  .content {
-    padding: 40px 20px 70px;
-  }
-
-  /* Sections */
-  .section h2,
-  .block h2 {
-    font-size: 1.5rem;
-  }
-  .section p,
-  .block p,
-  .faq-answer p,
-  .change-list li {
-    font-size: 0.88rem;
-  }
-
-  /* Info cards */
-  .info-card,
-  .highlight-box,
-  .disclaimer,
-  .release-card {
-    padding: 16px 18px;
-  }
-
-  /* Stack grid */
-  .stack-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* Author card */
-  .author-card {
-    flex-direction: column;
-    gap: 16px;
-    padding: 24px 20px;
-  }
-
-  /* Links row */
-  .links-row {
-    flex-direction: column;
-  }
-  .link-btn {
-    justify-content: center;
-  }
-
-  /* FAQ */
-  .faq-question {
-    font-size: 0.9rem;
-    padding: 16px 0;
-  }
-  .faq-group {
-    margin-bottom: 36px;
-  }
-  .cta-bottom {
-    padding: 28px 20px;
-  }
-
-  /* Changelog timeline */
-  .timeline {
-    padding-left: 20px;
-  }
-  .release::before {
-    left: -24px;
-  }
-  .release-version {
-    font-size: 1.3rem;
-  }
-  .release-header {
-    gap: 10px;
-  }
-
-  /* Footer */
-  .footer-links {
-    gap: 12px;
-    flex-direction: column;
-    align-items: center;
-  }
-  .footer-sep { display: none; }
-  .footer-github {
-    margin-top: 4px;
-  }
-}
-
-</style>
-</head>
-<body>
-
-
-<!-- Page transition overlay -->
-<div class="page-transition" id="pageTransition"></div>
-
-<!-- Custom cursor -->
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-
-<!-- Partículas globales -->
-<canvas class="particles-canvas" id="particlesCanvas"></canvas>
-
-<nav>
-  <a href="../" class="nav-logo">WSET 3<span>· Prepárate</span></a>
-  <a href="../" class="nav-back">← Volver al inicio</a>
-</nav>
-
-<div class="page-header">
-  <div class="page-orb"></div>
-  <div class="page-badge">🍷 El proyecto</div>
-  <h1 class="page-title">Sobre<br><em>el proyecto</em></h1>
-  <p class="page-sub">Por qué existe esta app y quién hay detrás.</p>
-</div>
-
-<div class="divider"></div>
-
-<main class="content">
-
-  <div class="block">
-    <div class="section-label">El origen</div>
-    <h2>Nació de una <em>necesidad real</em></h2>
-    <p>Mientras me preparaba el WSET Level 3, me di cuenta de que no existía ninguna herramienta decente para estudiar desde el móvil. Las opciones eran fotocopias, PDF mal maquetados o tarjetas en papel. Nada pensado para estudiar de verdad cuando tienes diez minutos libres.</p>
-    <p>Así que decidí construir la herramienta que me hubiera gustado tener: una app nativa para Android, sin fricciones, que funcionara offline y que pusiera el foco en lo que importa para el examen.</p>
-  </div>
-
-  <div class="block">
-    <div class="section-label">Quién lo hace</div>
-    <h2>El equipo</h2>
-    <div class="author-card">
-      <div class="author-avatar">🍷</div>
-      <div class="author-info">
-        <h3>DaoeZ</h3>
-        <div class="author-role">Desarrollador · Estudiante WSET L3</div>
-        <p>Proyecto personal. Desarrollo, contenido y diseño por la misma persona. Estudios de enología + demasiadas horas peleándome con Android.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="block">
-    <div class="section-label">Tecnología</div>
-    <h2>Cómo está hecha</h2>
-    <p>La app está construida con tecnologías web empaquetadas para Android, lo que permite actualizar el contenido (preguntas, fichas) sin necesidad de publicar en ninguna tienda.</p>
-    <div class="stack-grid">
-      <div class="stack-item">
-        <span class="stack-icon">⚡</span>
-        <div>
-          <div class="stack-name">Capacitor</div>
-          <div class="stack-desc">Web → Android nativo</div>
-        </div>
-      </div>
-      <div class="stack-item">
-        <span class="stack-icon">🌐</span>
-        <div>
-          <div class="stack-name">HTML / CSS / JS</div>
-          <div class="stack-desc">Sin frameworks, un solo fichero</div>
-        </div>
-      </div>
-      <div class="stack-item">
-        <span class="stack-icon">🐙</span>
-        <div>
-          <div class="stack-name">GitHub Releases</div>
-          <div class="stack-desc">Distribución y auto-update</div>
-        </div>
-      </div>
-      <div class="stack-item">
-        <span class="stack-icon">🗺️</span>
-        <div>
-          <div class="stack-name">D3.js</div>
-          <div class="stack-desc">Mapas interactivos</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="block">
-    <div class="section-label">Aviso legal</div>
-    <h2>Lo que hay que aclarar</h2>
-    <div class="disclaimer">
-      <p>Esta app es un proyecto independiente y <strong>no tiene ninguna afiliación con WSET</strong> (Wine & Spirit Education Trust) ni con ningún centro acreditado. El nombre "WSET" se utiliza únicamente para describir el examen para el que ayuda a prepararse. Todo el contenido está basado en el libro de estudio oficial y en fuentes públicas sobre las regiones vinícolas.</p>
-    </div>
-  </div>
-
-  <div class="block">
-    <div class="section-label">Código abierto · Contacto</div>
-    <h2>El proyecto es público</h2>
-    <p>El código fuente está disponible en GitHub. Si encuentras un error, quieres sugerir una pregunta o simplemente quieres echar un vistazo a cómo está hecho, eres bienvenido.</p>
-    <div class="links-row">
-      <a href="https://github.com/DaoeZ/WSET3/releases/latest" class="link-btn primary" target="_blank">
-        ⬇️ Descargar la app
-      </a>
-      <a href="https://github.com/DaoeZ/WSET3" class="link-btn" target="_blank">
-        🐙 Ver en GitHub
-      </a>
-      <a href="https://github.com/DaoeZ/WSET3/issues" class="link-btn" target="_blank">
-        💬 Reportar un error
-      </a>
-    </div>
-  </div>
-
-</main>
-
-<div class="divider"></div>
-
-<footer>
-  <div class="footer-logo">WSET 3 · Prepárate</div>
-  <p class="footer-note">Hecho con 🍷 para estudiantes de vino · No oficial · No afiliado a WSET</p>
-      <nav class="footer-links">
-      <a href="../">Inicio</a>
-      <a href="../faq/">FAQ</a>
-      <a href="../privacy/">Privacidad</a>
-    </nav>
-</footer>
-
-<script>
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      observer.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('.block').forEach((el, i) => {
-  el.style.transitionDelay = `${i * 0.07}s`;
-  observer.observe(el);
-});
-</script>
-
-<script>
-// ── CURSOR PERSONALIZADO ──
-const dot   = document.getElementById('cursorDot');
-const ring  = document.getElementById('cursorRing');
-let mouseX = 0, mouseY = 0;
-let ringX = 0, ringY = 0;
-
-document.addEventListener('mousemove', e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  dot.style.left = mouseX + 'px';
-  dot.style.top  = mouseY + 'px';
-});
-
-(function animateRing() {
-  ringX += (mouseX - ringX) * 0.12;
-  ringY += (mouseY - ringY) * 0.12;
-  ring.style.left = ringX + 'px';
-  ring.style.top  = ringY + 'px';
-  requestAnimationFrame(animateRing);
-})();
-
-document.addEventListener('mouseleave', () => {
-  dot.style.opacity = '0'; ring.style.opacity = '0';
-});
-document.addEventListener('mouseenter', () => {
-  dot.style.opacity = '1'; ring.style.opacity = '1';
-});
-
-document.querySelectorAll('a, button').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    dot.style.transform = 'translate(-50%,-50%) scale(1.8)';
-    dot.style.background = 'var(--gold)';
-    ring.style.transform = 'translate(-50%,-50%) scale(1.4)';
-    ring.style.borderColor = 'rgba(201,168,76,0.6)';
-  });
-  el.addEventListener('mouseleave', () => {
-    dot.style.transform = 'translate(-50%,-50%) scale(1)';
-    dot.style.background = 'var(--wine-light)';
-    ring.style.transform = 'translate(-50%,-50%) scale(1)';
-    ring.style.borderColor = 'rgba(196,52,79,0.5)';
-  });
-});
-</script>
-
-<script>
-// ── PARTÍCULAS GLOBALES ──
-const canvas = document.getElementById('particlesCanvas');
-const ctx    = canvas.getContext('2d');
-let W, H, particles = [];
-let mouse = { x: -9999, y: -9999 };
-
-function resize() {
-  W = canvas.width  = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-}
-
-window.addEventListener('mousemove', e => {
-  mouse.x = e.clientX; mouse.y = e.clientY;
-}, { passive: true });
-
-function makeParticle(forced = false) {
-  const typeRoll = Math.random();
-  const type = typeRoll < 0.65 ? 'dust' : typeRoll < 0.9 ? 'mid' : 'gold';
-  return {
-    type,
-    x: Math.random() * W,
-    y: forced ? H + Math.random() * 20 : Math.random() * H,
-    r: type === 'dust' ? Math.random() * 1.0 + 0.2 : type === 'mid' ? Math.random() * 1.8 + 0.8 : Math.random() * 2.2 + 1.0,
-    speedY: type === 'dust' ? -(Math.random() * 0.3 + 0.08) : type === 'mid' ? -(Math.random() * 0.5 + 0.15) : -(Math.random() * 0.6 + 0.2),
-    speedX: (Math.random() - 0.5) * (type === 'dust' ? 0.1 : 0.2),
-    opacity: type === 'dust' ? Math.random() * 0.5 + 0.2 : type === 'mid' ? Math.random() * 0.6 + 0.3 : Math.random() * 0.8 + 0.4,
-    pulseSpeed: Math.random() * 0.015 + 0.005,
-    pulseOffset: Math.random() * Math.PI * 2,
-    life: 0,
-    maxLife: type === 'dust' ? Math.random() * 400 + 300 : type === 'mid' ? Math.random() * 350 + 250 : Math.random() * 280 + 180,
-  };
-}
-
-function init() {
-  resize();
-  const count = Math.min(Math.floor(W * H / 14000), 130);
-  particles = Array.from({ length: count }, () => makeParticle(false));
-}
-
-function draw() {
-  ctx.clearRect(0, 0, W, H);
-  const now = performance.now() * 0.001;
-  particles.forEach((p, i) => {
-    p.life++;
-    p.x += p.speedX;
-    p.y += p.speedY;
-    const dx = p.x - mouse.x, dy = p.y - mouse.y;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    if (dist < 120) {
-      const force = (120 - dist) / 120 * 0.4;
-      p.x += (dx / dist) * force;
-      p.y += (dy / dist) * force;
-    }
-    const fadeIn  = Math.min(p.life / 60, 1);
-    const fadeOut = Math.min((p.maxLife - p.life) / 60, 1);
-    const pulse   = 0.75 + 0.25 * Math.sin(now * p.pulseSpeed * 60 + p.pulseOffset);
-    const alpha   = p.opacity * fadeIn * fadeOut * pulse;
-    let color = p.type === 'gold' ? `rgba(201,168,76,${alpha})` : p.type === 'mid' ? `rgba(180,40,65,${alpha})` : `rgba(196,52,79,${alpha * 0.7})`;
-    if (p.type === 'gold') {
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(now * 0.3 + p.pulseOffset);
-      ctx.fillStyle = color;
-      ctx.fillRect(-p.r * 0.3, -p.r * 1.4, p.r * 0.6, p.r * 2.8);
-      ctx.fillRect(-p.r * 1.4, -p.r * 0.3, p.r * 2.8, p.r * 0.6);
-      ctx.restore();
-    } else {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = color;
-      ctx.fill();
-    }
-    if (p.type !== 'dust') {
-      for (let j = i + 1; j < particles.length; j++) {
-        const q = particles[j];
-        if (q.type === 'dust') continue;
-        const ex = p.x - q.x, ey = p.y - q.y;
-        const ed = Math.sqrt(ex * ex + ey * ey);
-        if (ed < 90) {
-          const lineAlpha = (1 - ed / 90) * 0.06 * fadeIn * fadeOut;
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(q.x, q.y);
-          ctx.strokeStyle = `rgba(139,26,46,${lineAlpha})`;
-          ctx.lineWidth = 0.4;
-          ctx.stroke();
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sobre el proyecto · Wine Studies Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --wine: #8b1a2e;
+        --wine-deep: #5c0f1e;
+        --wine-light: #c4344f;
+        --gold: #c9a84c;
+        --gold-light: #e8c96a;
+        --cream: #f5f0e8;
+        --dark: #0d0608;
+        --dark-mid: #1a0d10;
+        --dark-card: #221218;
+        --text: #f0e8e0;
+        --text-muted: #9a8070;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--dark);
+        color: var(--text);
+        font-family: "Outfit", system-ui, sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 999;
+        opacity: 0.6;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 20px 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(13, 6, 8, 0.85);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      }
+
+      .nav-logo {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.3rem;
+        color: var(--wine-light);
+        text-decoration: none;
+      }
+
+      .nav-logo span {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        font-family: "Outfit", sans-serif;
+        font-weight: 300;
+        margin-left: 8px;
+      }
+
+      .nav-back {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: color 0.2s;
+      }
+      .nav-back:hover {
+        color: var(--gold);
+      }
+
+      /* HEADER */
+      .page-header {
+        padding: 140px 24px 60px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page-header::before {
+        content: "";
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(139, 26, 46, 0.12) 0%,
+          transparent 70%
+        );
+        top: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        pointer-events: none;
+      }
+
+      .page-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(201, 168, 76, 0.08);
+        border: 1px solid rgba(201, 168, 76, 0.2);
+        color: var(--gold-light);
+        font-size: 0.72rem;
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding: 7px 16px;
+        border-radius: 100px;
+        margin-bottom: 28px;
+        opacity: 0;
+        animation: fadeUp 0.6s ease 0.1s forwards;
+      }
+
+      .page-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 300;
+        line-height: 1;
+        margin-bottom: 20px;
+        opacity: 0;
+        animation: fadeUp 0.6s ease 0.2s forwards;
+      }
+
+      .page-title em {
+        font-style: italic;
+        color: var(--wine-light);
+        display: block;
+      }
+
+      .page-sub {
+        font-size: 1rem;
+        color: var(--text-muted);
+        font-weight: 300;
+        max-width: 440px;
+        margin: 0 auto;
+        opacity: 0;
+        animation: fadeUp 0.6s ease 0.3s forwards;
+      }
+
+      .divider {
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(139, 26, 46, 0.3),
+          rgba(201, 168, 76, 0.2),
+          rgba(139, 26, 46, 0.3),
+          transparent
+        );
+      }
+
+      /* CONTENT */
+      .content {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 60px 24px 100px;
+      }
+
+      .block {
+        margin-bottom: 56px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.7s ease-out;
+      }
+
+      .block.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .section-label {
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 12px;
+      }
+
+      .block h2 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 2rem;
+        font-weight: 400;
+        color: var(--cream);
+        margin-bottom: 20px;
+        line-height: 1.2;
+      }
+
+      .block h2 em {
+        font-style: italic;
+        color: var(--wine-light);
+      }
+
+      .block p {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        line-height: 1.85;
+        font-weight: 300;
+        margin-bottom: 14px;
+      }
+
+      .block p:last-child {
+        margin-bottom: 0;
+      }
+
+      .block p strong {
+        color: var(--text);
+        font-weight: 500;
+      }
+
+      /* AUTHOR CARD */
+      .author-card {
+        background: var(--dark-card);
+        border: 1px solid rgba(201, 168, 76, 0.15);
+        border-radius: 20px;
+        padding: 32px;
+        display: flex;
+        align-items: flex-start;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+
+      .author-avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--wine) 0%,
+          var(--wine-deep) 100%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        flex-shrink: 0;
+        border: 2px solid rgba(201, 168, 76, 0.2);
+      }
+
+      .author-info h3 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.5rem;
+        font-weight: 400;
+        color: var(--cream);
+        margin-bottom: 4px;
+      }
+
+      .author-info .author-role {
+        font-size: 0.8rem;
+        color: var(--gold);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-weight: 500;
+        margin-bottom: 12px;
+      }
+
+      .author-info p {
+        font-size: 0.88rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+        font-weight: 300;
+        margin-bottom: 0;
+      }
+
+      /* STACK */
+      .stack-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12px;
+        margin-top: 8px;
+      }
+
+      .stack-item {
+        background: var(--dark-card);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .stack-icon {
+        font-size: 1.4rem;
+      }
+
+      .stack-name {
+        font-size: 0.85rem;
+        color: var(--text);
+        font-weight: 400;
+      }
+
+      .stack-desc {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        font-weight: 300;
+      }
+
+      /* DISCLAIMER */
+      .disclaimer {
+        background: rgba(139, 26, 46, 0.06);
+        border: 1px solid rgba(139, 26, 46, 0.18);
+        border-left: 3px solid var(--wine-light);
+        border-radius: 0 12px 12px 0;
+        padding: 20px 24px;
+      }
+
+      .disclaimer p {
+        font-size: 0.88rem;
+        color: var(--text-muted);
+        margin-bottom: 0;
+      }
+
+      /* LINKS */
+      .links-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+
+      .link-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--dark-card);
+        border: 1px solid rgba(201, 168, 76, 0.15);
+        color: var(--text);
+        text-decoration: none;
+        font-size: 0.88rem;
+        font-weight: 400;
+        padding: 12px 20px;
+        border-radius: 10px;
+        transition: all 0.25s ease;
+      }
+
+      .link-btn:hover {
+        border-color: rgba(201, 168, 76, 0.35);
+        color: var(--gold-light);
+        transform: translateY(-2px);
+      }
+
+      .link-btn.primary {
+        background: linear-gradient(
+          135deg,
+          var(--wine) 0%,
+          var(--wine-deep) 100%
+        );
+        border-color: rgba(201, 168, 76, 0.2);
+        color: var(--cream);
+        box-shadow: 0 6px 24px rgba(139, 26, 46, 0.3);
+      }
+
+      .link-btn.primary:hover {
+        box-shadow: 0 10px 32px rgba(139, 26, 46, 0.5);
+        color: var(--cream);
+      }
+
+      footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 40px 24px;
+        text-align: center;
+      }
+
+      .footer-logo {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.4rem;
+        color: var(--wine-light);
+        margin-bottom: 8px;
+      }
+
+      .footer-note {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-weight: 300;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        margin-top: 16px;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .footer-links a:hover {
+        color: var(--gold);
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
       }
-    }
-    if (p.life >= p.maxLife || p.y < -20 || p.x < -20 || p.x > W + 20) {
-      particles[i] = makeParticle(true);
-    }
-  });
-  requestAnimationFrame(draw);
-}
 
-init();
-draw();
+      @media (hover: none) {
+        .cursor-dot,
+        .cursor-ring {
+          display: none;
+        }
+      }
 
-let resizeTimer;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(init, 200);
-}, { passive: true });
-</script>
+      /* ── CURSOR ── */
+      .cursor-dot {
+        width: 6px;
+        height: 6px;
+        background: var(--wine-light);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition:
+          transform 0.1s ease,
+          width 0.2s ease,
+          height 0.2s ease,
+          background 0.2s ease;
+        mix-blend-mode: screen;
+      }
 
-<script>
-// ── PAGE TRANSITIONS ──
-const overlay = document.getElementById('pageTransition');
+      .cursor-ring {
+        width: 32px;
+        height: 32px;
+        border: 1px solid rgba(196, 52, 79, 0.5);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition:
+          transform 0.12s ease,
+          width 0.25s ease,
+          height 0.25s ease,
+          border-color 0.25s ease,
+          opacity 0.25s ease;
+      }
 
-// Resetear overlay siempre al cargar — incluido al volver con el botón atrás (pageshow/bfcache)
-function resetOverlay() {
-  overlay.classList.remove('leaving');
-  overlay.style.opacity = '0';
-  overlay.style.pointerEvents = 'none';
-}
-window.addEventListener('load', resetOverlay);
-window.addEventListener('pageshow', resetOverlay);
+      body:has(a:hover) .cursor-dot,
+      body:has(button:hover) .cursor-dot {
+        width: 10px;
+        height: 10px;
+        background: var(--gold);
+      }
 
-document.querySelectorAll('a[href]').forEach(link => {
-  const href = link.getAttribute('href');
-  if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto')) return;
+      body:has(a:hover) .cursor-ring,
+      body:has(button:hover) .cursor-ring {
+        width: 44px;
+        height: 44px;
+        border-color: rgba(201, 168, 76, 0.6);
+      }
 
-  link.addEventListener('click', e => {
-    if (window.matchMedia('(hover: none)').matches) return;
-    e.preventDefault();
-    overlay.classList.add('leaving');
-    const fallback = setTimeout(() => { window.location.href = href; }, 350);
-    overlay.addEventListener('transitionend', () => {
-      clearTimeout(fallback);
-      window.location.href = href;
-    }, { once: true });
-  });
-});
-</script>
+      /* ── PARTICLES ── */
+      .particles-canvas {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 998;
+        width: 100%;
+        height: 100%;
+        mix-blend-mode: screen;
+      }
 
-</body>
+      /* ── PAGE TRANSITION ── */
+      .page-transition {
+        position: fixed;
+        inset: 0;
+        background: var(--dark);
+        z-index: 9000;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .page-transition.leaving {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      /* ── PAGE ORB (header secundario) ── */
+      .page-orb {
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(139, 26, 46, 0.18) 0%,
+          transparent 70%
+        );
+        top: -150px;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: pulse 7s ease-in-out infinite;
+        pointer-events: none;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: translateX(-50%) scale(1);
+          opacity: 0.6;
+        }
+        50% {
+          transform: translateX(-50%) scale(1.08);
+          opacity: 0.9;
+        }
+      }
+
+      /* ── RESPONSIVE MÓVIL ── */
+      @media (max-width: 640px) {
+        /* Nav */
+        nav {
+          padding: 14px 20px;
+        }
+        .nav-logo {
+          font-size: 1.1rem;
+        }
+
+        /* Page header */
+        .page-header {
+          padding: 100px 20px 40px;
+        }
+        .page-title {
+          font-size: clamp(2rem, 10vw, 3rem);
+        }
+        .page-sub {
+          font-size: 0.9rem;
+          padding: 0 8px;
+        }
+        .page-badge {
+          font-size: 0.65rem;
+          padding: 6px 14px;
+        }
+
+        /* Content */
+        .content {
+          padding: 40px 20px 70px;
+        }
+
+        /* Sections */
+        .section h2,
+        .block h2 {
+          font-size: 1.5rem;
+        }
+        .section p,
+        .block p,
+        .faq-answer p,
+        .change-list li {
+          font-size: 0.88rem;
+        }
+
+        /* Info cards */
+        .info-card,
+        .highlight-box,
+        .disclaimer,
+        .release-card {
+          padding: 16px 18px;
+        }
+
+        /* Stack grid */
+        .stack-grid {
+          grid-template-columns: 1fr;
+        }
+
+        /* Author card */
+        .author-card {
+          flex-direction: column;
+          gap: 16px;
+          padding: 24px 20px;
+        }
+
+        /* Links row */
+        .links-row {
+          flex-direction: column;
+        }
+        .link-btn {
+          justify-content: center;
+        }
+
+        /* FAQ */
+        .faq-question {
+          font-size: 0.9rem;
+          padding: 16px 0;
+        }
+        .faq-group {
+          margin-bottom: 36px;
+        }
+        .cta-bottom {
+          padding: 28px 20px;
+        }
+
+        /* Changelog timeline */
+        .timeline {
+          padding-left: 20px;
+        }
+        .release::before {
+          left: -24px;
+        }
+        .release-version {
+          font-size: 1.3rem;
+        }
+        .release-header {
+          gap: 10px;
+        }
+
+        /* Footer */
+        .footer-links {
+          gap: 12px;
+          flex-direction: column;
+          align-items: center;
+        }
+        .footer-sep {
+          display: none;
+        }
+        .footer-github {
+          margin-top: 4px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Page transition overlay -->
+    <div class="page-transition" id="pageTransition"></div>
+
+    <!-- Custom cursor -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- Partículas globales -->
+    <canvas class="particles-canvas" id="particlesCanvas"></canvas>
+
+    <nav>
+      <a href="../" class="nav-logo">Wine Studies Pro</a>
+      <a href="../" class="nav-back">← Volver al inicio</a>
+    </nav>
+
+    <div class="page-header">
+      <div class="page-orb"></div>
+      <div class="page-badge">🍷 El proyecto</div>
+      <h1 class="page-title">Sobre<br /><em>el proyecto</em></h1>
+      <p class="page-sub">Por qué existe esta app y quién hay detrás.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <main class="content">
+      <div class="block">
+        <div class="section-label">El origen</div>
+        <h2>Nació de una <em>necesidad real</em></h2>
+        <p>
+          Mientras me preparaba el examen de vinos de nivel avanzado, me di
+          cuenta de que no existía ninguna herramienta decente para estudiar
+          desde el móvil. Las opciones eran fotocopias, PDF mal maquetados o
+          tarjetas en papel. Nada pensado para estudiar de verdad cuando tienes
+          diez minutos libres.
+        </p>
+        <p>
+          Así que decidí construir la herramienta que me hubiera gustado tener:
+          una app nativa para Android, sin fricciones, que funcionara offline y
+          que pusiera el foco en lo que importa para el examen.
+        </p>
+      </div>
+
+      <div class="block">
+        <div class="section-label">Quién lo hace</div>
+        <h2>El equipo</h2>
+        <div class="author-card">
+          <div class="author-avatar">🍷</div>
+          <div class="author-info">
+            <h3>DaoeZ</h3>
+            <div class="author-role">Desarrollador · Enólogo en formación</div>
+            <p>
+              Proyecto personal. Desarrollo, contenido y diseño por la misma
+              persona. Formación en enología + demasiadas horas peleándome con
+              Android. La app tiene versión demo gratuita y licencia completa
+              disponible por 15€.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="section-label">Tecnología</div>
+        <h2>Cómo está hecha</h2>
+        <p>
+          La app está construida con tecnologías web empaquetadas para Android,
+          lo que permite actualizar el contenido (preguntas, fichas) sin
+          necesidad de publicar en ninguna tienda.
+        </p>
+        <div class="stack-grid">
+          <div class="stack-item">
+            <span class="stack-icon">⚡</span>
+            <div>
+              <div class="stack-name">Capacitor</div>
+              <div class="stack-desc">Web → Android nativo</div>
+            </div>
+          </div>
+          <div class="stack-item">
+            <span class="stack-icon">🌐</span>
+            <div>
+              <div class="stack-name">HTML / CSS / JS</div>
+              <div class="stack-desc">Sin frameworks, un solo fichero</div>
+            </div>
+          </div>
+          <div class="stack-item">
+            <span class="stack-icon">🐙</span>
+            <div>
+              <div class="stack-name">GitHub Releases</div>
+              <div class="stack-desc">Distribución y auto-update</div>
+            </div>
+          </div>
+          <div class="stack-item">
+            <span class="stack-icon">🗺️</span>
+            <div>
+              <div class="stack-name">D3.js</div>
+              <div class="stack-desc">Mapas interactivos</div>
+            </div>
+          </div>
+          <div class="stack-item">
+            <span class="stack-icon">🤖</span>
+            <div>
+              <div class="stack-name">Google Gemini</div>
+              <div class="stack-desc">Corrección con IA</div>
+            </div>
+          </div>
+          <div class="stack-item">
+            <span class="stack-icon">🔐</span>
+            <div>
+              <div class="stack-name">Gumroad</div>
+              <div class="stack-desc">Licencias y pagos</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="section-label">Aviso legal</div>
+        <h2>Lo que hay que aclarar</h2>
+        <div class="disclaimer">
+          <p>
+            Wine Studies Pro es un proyecto independiente
+            <strong
+              >sin afiliación con ninguna organización certificadora de
+              vinos</strong
+            >
+            ni con ningún centro acreditado. El contenido está basado en fuentes
+            públicas sobre las regiones vinícolas del mundo y en el temario de
+            exámenes de nivel avanzado.
+          </p>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="section-label">Código abierto · Contacto</div>
+        <h2>El proyecto es público</h2>
+        <p>
+          El código fuente está disponible en GitHub. Si encuentras un error,
+          quieres sugerir una pregunta o simplemente quieres echar un vistazo a
+          cómo está hecho, eres bienvenido.
+        </p>
+        <div class="links-row">
+          <a
+            href="https://github.com/DaoeZ/WSPro/releases/latest/download/WineStudiesPro.apk"
+            class="link-btn primary"
+            target="_blank"
+          >
+            ⬇️ Descargar la app
+          </a>
+          <a
+            href="https://github.com/DaoeZ/WSPro"
+            class="link-btn"
+            target="_blank"
+          >
+            🐙 Ver en GitHub
+          </a>
+          <a
+            href="https://github.com/DaoeZ/WSPro/issues"
+            class="link-btn"
+            target="_blank"
+          >
+            💬 Reportar un error
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <div class="divider"></div>
+
+    <footer>
+      <div class="footer-logo">Wine Studies Pro</div>
+      <p class="footer-note">
+        Hecho con 🍷 para estudiantes de vino · No oficial · No afiliado a
+        ninguna organización certificadora
+      </p>
+      <nav class="footer-links">
+        <a href="../">Inicio</a>
+        <a href="../faq/">FAQ</a>
+        <a href="../privacy/">Privacidad</a>
+      </nav>
+    </footer>
+
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              observer.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document.querySelectorAll(".block").forEach((el, i) => {
+        el.style.transitionDelay = `${i * 0.07}s`;
+        observer.observe(el);
+      });
+    </script>
+
+    <script>
+      // ── CURSOR PERSONALIZADO ──
+      const dot = document.getElementById("cursorDot");
+      const ring = document.getElementById("cursorRing");
+      let mouseX = 0,
+        mouseY = 0;
+      let ringX = 0,
+        ringY = 0;
+
+      document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.style.left = mouseX + "px";
+        dot.style.top = mouseY + "px";
+      });
+
+      (function animateRing() {
+        ringX += (mouseX - ringX) * 0.12;
+        ringY += (mouseY - ringY) * 0.12;
+        ring.style.left = ringX + "px";
+        ring.style.top = ringY + "px";
+        requestAnimationFrame(animateRing);
+      })();
+
+      document.addEventListener("mouseleave", () => {
+        dot.style.opacity = "0";
+        ring.style.opacity = "0";
+      });
+      document.addEventListener("mouseenter", () => {
+        dot.style.opacity = "1";
+        ring.style.opacity = "1";
+      });
+
+      document.querySelectorAll("a, button").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          dot.style.transform = "translate(-50%,-50%) scale(1.8)";
+          dot.style.background = "var(--gold)";
+          ring.style.transform = "translate(-50%,-50%) scale(1.4)";
+          ring.style.borderColor = "rgba(201,168,76,0.6)";
+        });
+        el.addEventListener("mouseleave", () => {
+          dot.style.transform = "translate(-50%,-50%) scale(1)";
+          dot.style.background = "var(--wine-light)";
+          ring.style.transform = "translate(-50%,-50%) scale(1)";
+          ring.style.borderColor = "rgba(196,52,79,0.5)";
+        });
+      });
+    </script>
+
+    <script>
+      // ── PARTÍCULAS GLOBALES ──
+      const canvas = document.getElementById("particlesCanvas");
+      const ctx = canvas.getContext("2d");
+      let W,
+        H,
+        particles = [];
+      let mouse = { x: -9999, y: -9999 };
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+
+      window.addEventListener(
+        "mousemove",
+        (e) => {
+          mouse.x = e.clientX;
+          mouse.y = e.clientY;
+        },
+        { passive: true },
+      );
+
+      function makeParticle(forced = false) {
+        const typeRoll = Math.random();
+        const type = typeRoll < 0.65 ? "dust" : typeRoll < 0.9 ? "mid" : "gold";
+        return {
+          type,
+          x: Math.random() * W,
+          y: forced ? H + Math.random() * 20 : Math.random() * H,
+          r:
+            type === "dust"
+              ? Math.random() * 1.0 + 0.2
+              : type === "mid"
+                ? Math.random() * 1.8 + 0.8
+                : Math.random() * 2.2 + 1.0,
+          speedY:
+            type === "dust"
+              ? -(Math.random() * 0.3 + 0.08)
+              : type === "mid"
+                ? -(Math.random() * 0.5 + 0.15)
+                : -(Math.random() * 0.6 + 0.2),
+          speedX: (Math.random() - 0.5) * (type === "dust" ? 0.1 : 0.2),
+          opacity:
+            type === "dust"
+              ? Math.random() * 0.5 + 0.2
+              : type === "mid"
+                ? Math.random() * 0.6 + 0.3
+                : Math.random() * 0.8 + 0.4,
+          pulseSpeed: Math.random() * 0.015 + 0.005,
+          pulseOffset: Math.random() * Math.PI * 2,
+          life: 0,
+          maxLife:
+            type === "dust"
+              ? Math.random() * 400 + 300
+              : type === "mid"
+                ? Math.random() * 350 + 250
+                : Math.random() * 280 + 180,
+        };
+      }
+
+      function init() {
+        resize();
+        const count = Math.min(Math.floor((W * H) / 14000), 130);
+        particles = Array.from({ length: count }, () => makeParticle(false));
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        const now = performance.now() * 0.001;
+        particles.forEach((p, i) => {
+          p.life++;
+          p.x += p.speedX;
+          p.y += p.speedY;
+          const dx = p.x - mouse.x,
+            dy = p.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            const force = ((120 - dist) / 120) * 0.4;
+            p.x += (dx / dist) * force;
+            p.y += (dy / dist) * force;
+          }
+          const fadeIn = Math.min(p.life / 60, 1);
+          const fadeOut = Math.min((p.maxLife - p.life) / 60, 1);
+          const pulse =
+            0.75 + 0.25 * Math.sin(now * p.pulseSpeed * 60 + p.pulseOffset);
+          const alpha = p.opacity * fadeIn * fadeOut * pulse;
+          let color =
+            p.type === "gold"
+              ? `rgba(201,168,76,${alpha})`
+              : p.type === "mid"
+                ? `rgba(180,40,65,${alpha})`
+                : `rgba(196,52,79,${alpha * 0.7})`;
+          if (p.type === "gold") {
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(now * 0.3 + p.pulseOffset);
+            ctx.fillStyle = color;
+            ctx.fillRect(-p.r * 0.3, -p.r * 1.4, p.r * 0.6, p.r * 2.8);
+            ctx.fillRect(-p.r * 1.4, -p.r * 0.3, p.r * 2.8, p.r * 0.6);
+            ctx.restore();
+          } else {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.fill();
+          }
+          if (p.type !== "dust") {
+            for (let j = i + 1; j < particles.length; j++) {
+              const q = particles[j];
+              if (q.type === "dust") continue;
+              const ex = p.x - q.x,
+                ey = p.y - q.y;
+              const ed = Math.sqrt(ex * ex + ey * ey);
+              if (ed < 90) {
+                const lineAlpha = (1 - ed / 90) * 0.06 * fadeIn * fadeOut;
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(q.x, q.y);
+                ctx.strokeStyle = `rgba(139,26,46,${lineAlpha})`;
+                ctx.lineWidth = 0.4;
+                ctx.stroke();
+              }
+            }
+          }
+          if (p.life >= p.maxLife || p.y < -20 || p.x < -20 || p.x > W + 20) {
+            particles[i] = makeParticle(true);
+          }
+        });
+        requestAnimationFrame(draw);
+      }
+
+      init();
+      draw();
+
+      let resizeTimer;
+      window.addEventListener(
+        "resize",
+        () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(init, 200);
+        },
+        { passive: true },
+      );
+    </script>
+
+    <script>
+      // ── PAGE TRANSITIONS ──
+      const overlay = document.getElementById("pageTransition");
+      window.addEventListener("load", () => {
+        overlay.style.opacity = "0";
+      });
+      document.querySelectorAll("a[href]").forEach((link) => {
+        const href = link.getAttribute("href");
+        if (
+          !href ||
+          href.startsWith("#") ||
+          href.startsWith("http") ||
+          href.startsWith("mailto")
+        )
+          return;
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          overlay.classList.add("leaving");
+          setTimeout(() => {
+            window.location.href = href;
+          }, 300);
+        });
+      });
+    </script>
+  </body>
 </html>
